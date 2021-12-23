@@ -1,0 +1,28 @@
+{
+  "editor.tabSize": 2,
+  "stylelint.autoFixOnSave": true,
+  "stylelint.configOverrides": {},
+  "scss.validate": false, // 禁用内置
+  "css.validate": false,
+  "stylelint.validate": ["scss", "css"],
+  "stylelint.customSyntax": "postcss-scss",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+  ],
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": null, // 默认格式化程序，优先级高，会覆盖插件
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false, // 默认
+    "source.fixAll.stylelint": true, // 保存自动格式化
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}
