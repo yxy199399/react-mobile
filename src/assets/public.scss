@@ -27,16 +27,6 @@ a[disabled] {
   display: none !important;
 }
 
-/* 导航激活色 */
-.ant-menu-item-selected {
-  background:
-    linear-gradient(
-      270deg,
-      rgb(255 255 255 / 30%) 0%,
-      rgb(255 255 255 / 10%) 99%
-    );
-}
-
 .right {
   float: right;
 }

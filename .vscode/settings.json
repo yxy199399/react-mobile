@@ -17,7 +17,7 @@
     "tsx"
   ],
   "files.eol": "\n",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false, // 默认格式化
   "editor.defaultFormatter": null, // 默认格式化程序，优先级高，会覆盖插件
   "editor.codeActionsOnSave": {
     "source.fixAll": false, // 默认
