@@ -1,4 +1,5 @@
 import { AllState as StroeState } from '@/store/reducers'
+import URLLIST from './http/urlList'
 export declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function
@@ -30,4 +31,7 @@ export declare global {
     token: string
     userInfo?: UserInfo
   }
+
+  type UrlKeys = typeof URLLIST
+  export type HttpUrlKey = keyof UrlKeys
 }

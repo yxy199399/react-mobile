@@ -28,7 +28,8 @@
     "Action": false,
     "Dispatch": false,
     "UserInfo": false,
-    "User": false
+    "User": false,
+    "HttpUrlKey": false
   },
   "rules": {
     "prettier/prettier": "error",
