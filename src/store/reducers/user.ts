@@ -7,7 +7,7 @@ const userReducer: Reducer<User, extaAction> = (
   state = {
     token: '',
     userInfo: {
-      username: '默认值',
+      username: '',
     },
   },
   action
