@@ -36,7 +36,8 @@
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-require-imports": "off",
     "no-unused-vars": "error",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "custom-property-no-missing-var-function": "off"
     // 自定义您的规则
     // Customize your rules
   }

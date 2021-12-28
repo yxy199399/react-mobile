@@ -1,0 +1,36 @@
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  box-sizing: border-box;
+  width: 100%;
+  height: $local-header-height;
+  overflow: hidden;
+  color: $local-header-color;
+  background: $local-header-bgColor;
+
+  &-title {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    font-size: $local-header-font-size;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+
+  &-back {
+    position: absolute;
+    top: 50%;
+    left: 0.32rem;
+    z-index: 10;
+    transform: translateY(-50%);
+  }
+
+  &-exta {
+    position: absolute;
+    top: 50%;
+    right: 0.32rem;
+    z-index: 10;
+    transform: translateY(-50%);
+  }
+}

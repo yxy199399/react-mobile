@@ -1,17 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import Header from '@/components/header'
+import FooterBar from '@/components/footerBar'
 export default function Home() {
-  const navigate = useNavigate()
   return (
-    <div>
-      首页
-      <button
-        onClick={() => {
-          navigate('/main/user')
-        }}
-      >
-        用户
-      </button>
-    </div>
+    <>
+      <Header title='首页' back />
+      <div className='page-content page-footer-bar-main-content'>首页</div>
+      <FooterBar active='首页' />
+    </>
   )
 }

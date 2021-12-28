@@ -1,6 +1,6 @@
 const URLLIST = {
   // 登录相关
-  test: '/test',
+  test: '/good',
 }
 
 export default URLLIST

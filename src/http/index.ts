@@ -49,7 +49,7 @@ function initApiConfig<T extends object, K extends keyof T>(
 }
 
 // 请求方法配置
-export default {
+const Axios = {
   get: (
     key: HttpUrlKey,
     params?: AxiosRequestConfig<any>
@@ -57,7 +57,7 @@ export default {
     let url: string = initApiConfig(URLLIST, key)
     // url/params 方式
     if (params?.url) url = params.url
-    return axios.get(url, params)
+    return _axios.get(url, params)
   },
   post: (
     key: HttpUrlKey,
@@ -65,6 +65,8 @@ export default {
     config?: AxiosRequestConfig<any>
   ): AxiosPromise<any> => {
     const url: string = initApiConfig(URLLIST, key)
-    return axios.post(url, data, config)
+    return _axios.post(url, data, config)
   },
 }
+
+export default Axios

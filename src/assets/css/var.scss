@@ -1,0 +1,16 @@
+// 导航栏样式
+$local-header-color: #fff;
+$local-header-bgColor: linear-gradient(72deg, #1dadd9 0%, #0ed48f 100%);
+$local-header-height: 1rem; // 1rem = 50px
+$local-header-font-size: 0.36rem;
+
+// 底部导航
+$local-footer-bar-height: 1.44rem;
+$local-footer-bar-bg: #fff;
+$local-footer-bar-font-size: 0.32rem;
+$local-footer-bar-active: #52abd5;
+
+// 内容
+$local-page-footer-bar-content: calc(100vh - #{$local-footer-bar-height});
+$local-page-padding: $local-header-height 0 0 0;
+$local-main-bg: #fff;

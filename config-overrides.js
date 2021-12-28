@@ -4,6 +4,7 @@ const {
   fixBabelImports,
   overrideDevServer,
   addWebpackAlias,
+  adjustStyleLoaders,
   // useEslintRc
 } = require('customize-cra')
 const path = require('path')
@@ -43,6 +44,18 @@ module.exports = {
     // 配置别名
     addWebpackAlias({
       '@': path.resolve(__dirname, './src/'),
+    }),
+
+    // 导入全局变量scss
+    adjustStyleLoaders((rule) => {
+      if (rule.test.toString().includes('scss')) {
+        rule.use.push({
+          loader: require.resolve('sass-resources-loader'),
+          options: {
+            resources: './src/assets/css/var.scss', // 全局引入scss
+          },
+        })
+      }
     })
   ),
   devServer: overrideDevServer(devServerConfig()),
