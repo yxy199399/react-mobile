@@ -1,5 +1,12 @@
-import { LOGIN, CLEARSTORE } from './actionType'
+import {
+  LOGIN,
+  CLEARSTORE,
+  DICTLOADING,
+  DICTSUCCESS,
+  DICTFAIL,
+} from './actionType'
 import { push } from '@lagunovsky/redux-react-router'
+import Axios from '@/http'
 export const loginAction = () => {
   return async (dispatch: Dispatch) => {
     const token = '111'
@@ -22,5 +29,41 @@ export const logoutAction = () => {
       type: CLEARSTORE,
     }
     dispatch(action)
+  }
+}
+
+export const dictAction = (path: string) => {
+  return async (dispatch: Dispatch, getState: any) => {
+    const { dict } = getState()
+    const d = dict[path]
+    if (d && (d.loading || d.success)) return
+    dispatch({
+      type: DICTLOADING,
+      value: {
+        path,
+      },
+    })
+    await Axios.get('dict', {
+      // url: URLLIST['dictItem'] + path,
+      params: { dicCode: path },
+    }).then((res) => {
+      if (res.data.code === 200) {
+        const { data } = res.data
+        dispatch({
+          type: DICTSUCCESS,
+          value: {
+            path,
+            data,
+          },
+        })
+      } else {
+        dispatch({
+          type: DICTFAIL,
+          value: {
+            path,
+          },
+        })
+      }
+    })
   }
 }
