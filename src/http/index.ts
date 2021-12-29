@@ -5,6 +5,7 @@ import axios, {
   AxiosPromise,
 } from 'axios'
 import URLLIST from './urlList'
+import { httpSuccess } from '@/utils/tool'
 const _axios = axios.create()
 _axios.defaults.timeout = 3000
 _axios.defaults.headers.post['Content-Type'] =
@@ -27,7 +28,8 @@ _axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
 _axios.interceptors.response.use(
   (res: AxiosResponse<any, any>) => {
     setTimeout(() => {
-      if (res.data.code !== 200) {
+      const bool = httpSuccess(res.data.code)
+      if (!bool) {
         // 错误统一处理
       }
     }, 0)
