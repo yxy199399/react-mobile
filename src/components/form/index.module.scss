@@ -1,0 +1,40 @@
+.local-form {
+  :global {
+    // 整个表单样式
+    .adm-list-default {
+      border-bottom: 0;
+    }
+
+    // 每个item样式
+    .adm-list-item-content {
+      border-bottom: var(--border-inner);
+    }
+
+    .adm-list-item-title,
+    .adm-list-item-description {
+      // lable颜色字体大小
+      font-size: 15px;
+      color: var(--adm-color-weak);
+    }
+
+    // 输入框颜色字体样式
+    .adm-input {
+      font-size: var(--font-size);
+      line-height: 1.5;
+      color: var(--color);
+    }
+
+    // placeholder样式
+    .adm-input-wrapper {
+      --font-size: 17px;
+      --color: var(--adm-color-text);
+      --placeholder-color: var(--adm-color-light);
+      --disabled-color: var(--adm-color-light);
+      --text-align: left;
+    }
+
+    .adm-form .adm-form-footer {
+      // 提交按钮样式
+    }
+  }
+}
