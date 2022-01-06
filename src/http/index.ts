@@ -5,7 +5,13 @@ import axios, {
   AxiosPromise,
 } from 'axios'
 import URLLIST from './urlList'
-import { httpSuccess } from '@/utils/tool'
+
+// 请求成功函数
+export function httpSuccess(key: string | number) {
+  if (key === 200) return true
+  return false
+}
+
 const _axios = axios.create()
 _axios.defaults.timeout = 3000
 _axios.defaults.headers.post['Content-Type'] =

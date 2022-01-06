@@ -29,7 +29,8 @@
     "Dispatch": false,
     "UserInfo": false,
     "User": false,
-    "HttpUrlKey": false
+    "HttpUrlKey": false,
+    "PickerType": false
   },
   "rules": {
     "prettier/prettier": "error",

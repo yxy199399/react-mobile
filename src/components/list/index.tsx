@@ -6,7 +6,7 @@ import {
   Loading,
   SearchBar,
 } from 'antd-mobile'
-import Axios from '@/http'
+import Axios, { httpSuccess } from '@/http'
 import styles from './index.module.scss'
 
 const InfiniteScrollContent = ({
@@ -62,7 +62,7 @@ export default function ListView<T>({
         ...params,
       },
     })
-    if (res.data.code === 200) {
+    if (httpSuccess(res.data.code)) {
       // 异步
       if (pageNum) {
         setHasMore(10 < res.data.total)

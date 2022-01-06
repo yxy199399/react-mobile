@@ -6,7 +6,7 @@ import {
   DICTFAIL,
 } from './actionType'
 import { push } from '@lagunovsky/redux-react-router'
-import Axios from '@/http'
+import Axios, { httpSuccess } from '@/http'
 export const loginAction = () => {
   return async (dispatch: Dispatch) => {
     const token = '111'
@@ -47,7 +47,7 @@ export const dictAction = (path: string) => {
       // url: URLLIST['dictItem'] + path,
       params: { dicCode: path },
     }).then((res) => {
-      if (res.data.code === 200) {
+      if (httpSuccess(res.data.code)) {
         const { data } = res.data
         dispatch({
           type: DICTSUCCESS,

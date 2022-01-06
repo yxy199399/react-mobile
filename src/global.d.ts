@@ -32,6 +32,11 @@ export declare global {
     userInfo?: UserInfo
   }
 
+  interface PickerType {
+    label: string
+    value: string | number
+  }
+
   type UrlKeys = typeof URLLIST
   export type HttpUrlKey = keyof UrlKeys
 }

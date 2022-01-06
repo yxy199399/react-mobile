@@ -38,3 +38,14 @@
     }
   }
 }
+
+.div-holder,
+.div-value {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--adm-color-light);
+}
+
+.div-value {
+  color: var(--adm-color-text);
+}

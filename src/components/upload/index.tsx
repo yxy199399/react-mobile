@@ -5,7 +5,7 @@ import {
   ImageUploaderProps,
 } from 'antd-mobile/es/components/image-uploader'
 import { upload } from './demo'
-import { httpSuccess } from '@/utils/tool'
+import { httpSuccess } from '@/http'
 interface IProps extends Omit<ImageUploaderProps, 'upload'> {
   size?: number
   defaultList?: any[]

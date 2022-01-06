@@ -1,57 +1,191 @@
-import React, { useState } from 'react'
-import { Form, Input, Picker as OriginPicker } from 'antd-mobile'
-import { FormItemProps } from 'antd-mobile/es/components/form/form-item'
-import { FormInstance } from 'antd-mobile/es/components/form'
-interface IProps extends Omit<FormItemProps, 'children'> {
-  form?: FormInstance<any>
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect, useCallback } from 'react'
+import { Picker as OriginPicker, SearchBar } from 'antd-mobile'
+import { cloneDeep } from 'lodash'
+import Axios, { httpSuccess } from '@/http'
+import { throttle } from '@/utils/tool'
+import styles from '../index.module.scss'
+interface IProps<T> {
+  // form?: FormInstance<any>
+  // name?: string
+  search?: boolean
+  value?: string
+  onChange?: (val: string) => void // 改方法继承自Form.Item（同Input中onChange）, 无需传递,在值改变时触发
+  listFormat?: (data: T[]) => T[] // 处理选项数据，对不是value、label属性添加label、value属性
+  labelFormat?: (data: T[]) => string // 显示内容处理
+  valueFormat?: (data: T[]) => void // 返回数据处理
+  getListData?: () => T[]
+  requestData?: {
+    api: HttpUrlKey
+    params?: any
+    requestType?: 'get' | 'post'
+  }
 }
-export default function Picker({ form, name, ...rest }: IProps) {
+export default function Picker<T>({
+  // name,
+  // form,
+  search,
+  value,
+  onChange,
+  listFormat,
+  labelFormat,
+  valueFormat,
+  getListData,
+  requestData,
+}: IProps<T>) {
   const [visible, setVisible] = useState<boolean>()
-  const [show, setShow] = useState<any>()
-  const basicColumns = [
-    [
-      { label: '周一', value: 'Mon' },
-      { label: '周二', value: 'Tues' },
-      { label: '周三', value: 'Wed' },
-      { label: '周四', value: 'Thur' },
-      { label: '周五', value: 'Fri' },
-    ],
-    [
-      { label: '上午', value: 'am' },
-      { label: '下午', value: 'pm' },
-    ],
-  ]
+  const [basicColumns, setBasicColumns] = useState<any[]>([])
+  const [allList, setAllList] = useState<any[]>([])
+
+  useEffect(() => {
+    getPickerData()
+  }, [])
+
+  const getPickerData = useCallback(async () => {
+    if (getListData) {
+      setBasicColumns([getListData()])
+      setAllList(getListData())
+    } else {
+      const res = await Axios[requestData!.requestType || 'get'](
+        requestData!.api,
+        requestData!.params
+      )
+      if (httpSuccess(res.data.code)) {
+        let data = res.data['data']
+        if (listFormat) {
+          data = listFormat(data)
+        }
+        setBasicColumns([data])
+        setAllList(data)
+      }
+    }
+  }, [])
+
+  const initValue = useCallback(() => {
+    if (value) {
+      if (Array.isArray(value)) return value
+      if (typeof value === 'string') return value.split(',')
+      if (typeof value === 'number')
+        return (value as number).toString().split(',').map(Number)
+      return undefined
+    }
+    return undefined
+  }, [value])()
+
+  const delayChange = useCallback(
+    throttle((v) => {
+      let list = cloneDeep(allList)
+      const newList = list.filter(
+        (item: T) => (item as any).label.indexOf(v) > -1
+      )
+      setBasicColumns([newList])
+    }, 300),
+    [allList]
+  )
+
+  const handleChange = (v: string) => {
+    delayChange(v)
+  }
 
   return (
-    <Form.Item
-      onClick={() => {
-        setVisible(true)
+    <OriginPicker
+      title={
+        search ? (
+          <SearchBar
+            onChange={(v) => {
+              handleChange(v)
+            }}
+          />
+        ) : (
+          ''
+        )
+      }
+      columns={basicColumns}
+      visible={visible}
+      onClose={() => {
+        setVisible(false)
       }}
-      {...rest}
+      value={initValue as any}
+      onConfirm={(val, extend) => {
+        if (valueFormat) {
+          valueFormat(extend.items as any)
+          return
+        }
+        onChange!(val as any)
+      }}
     >
-      <OriginPicker
-        onConfirm={setShow}
-        columns={basicColumns}
-        visible={visible}
-        value={show}
-        onClose={() => {
-          setVisible(false)
-        }}
-        onSelect={(val, extend) => {
-          console.log('onSelect', val, extend.items)
-        }}
-      >
-        {(items) => {
+      {(items) => {
+        if (!items || items.every((item) => item === null)) {
           return (
-            <Input
-              value={show}
-              className='adm-list-item-content'
-              disabled
-              placeholder='请选择'
-            />
+            <div
+              className={styles['div-holder']}
+              onClick={() => {
+                setVisible(true)
+              }}
+            >
+              请选择
+            </div>
           )
-        }}
-      </OriginPicker>
-    </Form.Item>
+        } else {
+          const selList = items.filter((item) => !!item)
+          let total = selList.map((item) => item?.label ?? '未选择').join(',')
+          if (labelFormat) {
+            total = labelFormat(selList as any)
+          }
+          if (total)
+            return (
+              <div
+                className={styles['div-value']}
+                onClick={() => {
+                  setVisible(true)
+                }}
+              >
+                {total.toString()}
+              </div>
+            )
+          return (
+            <div
+              className={styles['div-holder']}
+              onClick={() => {
+                setVisible(true)
+              }}
+            >
+              请选择
+            </div>
+          )
+        }
+      }}
+    </OriginPicker>
   )
 }
+
+// ;<Form.Item
+//   label='选择'
+//   name='age'
+//   rules={[{ required: true, message: '姓名不能为空' }]}
+// >
+//   <Picker<Dept>
+//     listFormat={(list) => {
+//       return list.map((item) => {
+//         item.label = item.deptName
+//         item.value = item.deptValue
+//         return item
+//       })
+//     }}
+//     labelFormat={(data) => {
+//       let show = ''
+//       data.forEach((item) => {
+//         show += item.label
+//       })
+//       return 'format:' + show
+//     }}
+//     valueFormat={(values) => {
+//       const formData = form?.getFieldsValue()
+//       form?.setFieldsValue({
+//         ...formData,
+//         age: values[0].value,
+//       })
+//     }}
+//     requestData={{ api: 'dept' }}
+//   />
+// </Form.Item>
